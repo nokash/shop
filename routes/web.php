@@ -14,3 +14,18 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/orders', function () {
+    return view('order');
+});
+
+Route::get('/supplier', function () {
+    return view('supplier');
+});
+
+Route::get('/product', function () {
+    return view('product');
+});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
