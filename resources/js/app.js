@@ -18,7 +18,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 
 
-//Vue.use(ElementUI);
+Vue.use(ElementUI);
 
 Vue.component('home-component', Home);
 

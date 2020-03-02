@@ -11,7 +11,7 @@ export default new Vuex.Store({
         products: [],
         cart: [],
         cartCount: 0,
-        suppliers: []
+        suppliers: [],
     },
 
     actions: {
@@ -27,7 +27,15 @@ export default new Vuex.Store({
             return commit('setSuppliers', await window.axios.get('/api/supplier/all'))
         },
 
-
+        deletePost({commit}, post) {
+            axios.delete(`/api/suppliers/delete/${post.id}`)
+                .then(res => {
+                    if (res.data === 'ok')
+                        commit('DELETE_POST', post)
+                }).catch(err => {
+                console.log(err)
+            })
+        },
 
 
     },
@@ -35,7 +43,7 @@ export default new Vuex.Store({
     mutations: {
         setPosts(state, response) {
             state.orders = response.data.data;
-           // console.log(state.orders)
+
         },
 
         setSuppliers(state, response){
@@ -45,6 +53,12 @@ export default new Vuex.Store({
         setProducts(state, response) {
             state.products = response.data.data;
 
+        },
+
+        DELETE_SUPPLIER(state, post) {
+            console.log(post.id)
+            let index = state.suppliers.findIndex(item => item.id === post.id)
+            state.suppliers.splice(index, 1)
         },
 
         addToCart(state, item){

@@ -104,10 +104,9 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $id)
     {
-        $supplier = Supplier::findorFail($id);
+        Supplier::destroy($id);
         // $supplier_c = ProjectCountry::where('project_id',$project->project_id)->first();
-        $supplier->delete();
-        $suppliers =  new Supplier;
+
 
         return response()->json(['success' => true],200);
         // return $suppliers;
