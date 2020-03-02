@@ -11,7 +11,7 @@ export default new Vuex.Store({
         products: [],
         cart: [],
         cartCount: 0,
-        suppliers,
+        suppliers: []
     },
 
     actions: {

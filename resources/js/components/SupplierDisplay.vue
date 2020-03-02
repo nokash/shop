@@ -3,11 +3,11 @@
         <div class="col-md-6" v-for="(post, i) in suppliers" :key=i>
             <div class="card mt-4">
                 <div class="card-body">
-                    <p class="card-text"><strong>Company Name: {{ post.name }}</strong> <br>
+                    <p class="card-text"><strong>Company Name: </strong> {{ post.name }}<br>
 
                     </p>
                 </div>
-                <button class="btn btn-success m-2" @click="viewPost(i)">View Order</button>
+                <button class="btn btn-success m-2" @click="viewPost(i)">View Company</button>
             </div>
         </div>
         <el-dialog v-if="currentPost" :visible.sync="postDialogVisible" width="40%">

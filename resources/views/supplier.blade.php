@@ -6,7 +6,7 @@
         <div class="col-md-8">
           <supplier-component></supplier-component>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="height: 32rem; overflow-y: scroll">
             <supplierdisplay-component></supplierdisplay-component>
         </div>
     </div>

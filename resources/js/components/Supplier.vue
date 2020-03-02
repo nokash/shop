@@ -10,6 +10,8 @@
                             <hr>
                             <input class='form-control' v-model="supplier" placeholder="Enter Company Name">
                             <br>
+                            <button style="float:right" class="btn btn-success" @click="addToCart(post)">Add Supplier</button>
+                            <br>
 
                         </div>
 
@@ -29,7 +31,7 @@
         data(){
             return {
                 company: "",
-                
+
             }
         },
         methods:{
