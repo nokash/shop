@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderDetails;
 use Illuminate\Http\Request;
 use DB;
 
@@ -36,9 +37,30 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $detail = $request->input('products');
+
+        $this->validate($request, [
+            // 'id' => 'required|unique:orders',
+            'order_number' => 'required',
+            'product_id' => 'required',
+            'order_id' => 'required'
+        ]);
+
+        $order = new Order;
+        $order->order_number = $request->input('order_number');
+        $order->save();
+
+        foreach($detail as $detail){
+            $order_dts = new OrderDetails;
+            $order_dts->order_id = $request->input('order_id');
+            $order_dts->product_id = $detail;
+
+            $order_dts->save();
+        }
+
+        return $order;
     }
 
     /**
@@ -92,8 +114,17 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        Order::destroy($id);
+
+        return response()->json("ok");
+
+    }
+
+
+    public function lastMile(){
+        $id = DB::table('orders')->orderBy('id', 'DESC')->first();
+        return response()->json($id);
     }
 }

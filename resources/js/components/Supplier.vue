@@ -12,21 +12,19 @@
 
                             role="alert"
                         >{{ status_msg }}</div>
-                        <div class="form-group">
+                        <form action="" @submit="createSupplier(supplier)">
                             <hr>
-                            <input class='form-control' v-model="company" placeholder="Enter Company Name">
+                            <input type="text" class='form-control' v-model="supplier.name" placeholder="Enter Company Name">
                             <br>
 
-
-                        </div>
-
-                    </div>
-                    <div class="card-footer">
-                             <button type="button"
-                             @click="createCompany"
-                             class="btn btn-success">
+                            <button
+                             @click.prevent="createSupplier(supplier)" class="btn btn-success">
                              {{ isCreatingPost ? "Posting..." : "Create Post" }}</button>
+
+                        </form>
+
                     </div>
+                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>
@@ -35,17 +33,15 @@
 
 <script>
 import { setTimeout } from "timers";
-import { mapState, mapActions } from "vuex";
 
 export default {
-        mounted() {
-            console.log('Component mounted.')
-        },
-        props: ["suppliers"],
+
 
         data(){
             return {
-                company: "",
+                supplier: {
+                    name: ''
+                },
                 status: "",
                 status_msg: "",
                 isCreatingPost: false,
@@ -53,42 +49,31 @@ export default {
             };
         },
 
-        computed:{},
-        mounted(){},
-        methods:{
-            getCompany: function(){
-              window.axios.get('/api/supplier/all')
-              .then(function (response) {
-                 this.companies = response.data;
-              }.bind(this));
+        methods: {
+            createSupplier(supplier){
 
-            },
-
-            ...mapActions(["getSuppliers"]),
-
-            createCompany(e) {
-                e.preventDefault();
                 if(!this.validateForm()){
                     return false;
+                } else{
+                        this.$store.dispatch('createSupplier', supplier);
+
+                        const that = this;
+                        this.isCreatingPost = true;
+                        this.supplier.name = "";
+                        this.status = true;
+
+                        this.shownotification("Supplier Added Successfully");
+                        this.isCreatingPost = !this.isCreatingPost;
                 }
-                const that = this;
-                this.isCreatingPost = true;
-                let formData = new FormData();
 
-                formData.append("name", this.company);
 
-                window.axios.post("/api/supplier/add", formData, {
-                    headers: { "Content-Type": "multipart/form-data"}
-                }).then(res => {
-                    this.company = "";
-                    this.status = true;
-                    this.shownotification("Supplier Added Successfully");
-                    this.isCreatingPost = !this.isCreatingPost;
-                    that.getCompany();
-                });
             },
+            content(){
+                console.log(supplier.name);
+            },
+
             validateForm(){
-                if(!this.company){
+                if(!this.supplier.name){
                     this.status = false;
                     this.shownotification("Company Name cannot be empty!");
                     return false;
@@ -101,18 +86,13 @@ export default {
                     this.status_msg = "";
                 }, 3000)
             }
-            // getStates: function() {
-            //     axios.get('/api/getStates',{
-            //      params: {
-            //        country_id: this.country
-            //      }
-            //   }).then(function(response){
-            //         this.states = response.data;
-            //     }.bind(this));
-            // }
+
         },
-        created: function(){
-            this.getCompany()
+
+        computed: {
+
         }
+
+
 };
 </script>

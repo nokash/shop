@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use App\Supplier;
 use Illuminate\Http\Request;
 
@@ -102,14 +103,11 @@ class SupplierController extends Controller
      * @param  \App\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $id)
+    public function destroy($id)
     {
-        Supplier::destroy($id);
-        // $supplier_c = ProjectCountry::where('project_id',$project->project_id)->first();
+        Product::destroy($id);
 
+        return response()->json("ok");
 
-        return response()->json(['success' => true],200);
-        // return $suppliers;
-        // $supplier_c->delete();
     }
 }
